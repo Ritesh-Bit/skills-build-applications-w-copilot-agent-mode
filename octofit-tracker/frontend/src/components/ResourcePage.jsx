@@ -7,18 +7,18 @@ function formatValue(value) {
   return String(value)
 }
 
-export default function ResourcePage({ component, title, eyebrow, description }) {
+export default function ResourcePage({ component, endpoint, title, eyebrow, description }) {
   const [records, setRecords] = useState([])
   const [status, setStatus] = useState('loading')
   const [error, setError] = useState('')
 
   useEffect(() => {
     let active = true
-    fetchCollection(component)
+    fetchCollection(component, endpoint)
       .then((items) => { if (active) { setRecords(items); setStatus('ready') } })
       .catch((requestError) => { if (active) { setError(requestError.message); setStatus('error') } })
     return () => { active = false }
-  }, [component])
+  }, [component, endpoint])
 
   const columns = records.length && typeof records[0] === 'object' ? Object.keys(records[0]) : ['message']
 
