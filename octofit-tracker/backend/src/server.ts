@@ -6,12 +6,12 @@ import leaderboardRouter from './routes/leaderboard';
 import workoutsRouter from './routes/workouts';
 
 const app = express();
-const port = Number(process.env.PORT) || 8000;
+const port = 8000;
 
 // Codespaces-aware API URL configuration
 const getApiUrl = () => {
   if (process.env.CODESPACE_NAME) {
-    return `https://${process.env.CODESPACE_NAME}-8000.${process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN || 'preview.app.github.dev'}`;
+    return `https://${process.env.CODESPACE_NAME}-8000.app.github.dev`;
   }
   return `http://localhost:${port}`;
 };
@@ -29,7 +29,7 @@ app.use('/api/activities', activitiesRouter);
 app.use('/api/leaderboard', leaderboardRouter);
 app.use('/api/workouts', workoutsRouter);
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`OctoFit API listening on port ${port}`);
   console.log(`API URL: ${getApiUrl()}`);
 });
